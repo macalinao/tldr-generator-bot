@@ -1,0 +1,3 @@
+praw==2.1.14
+python-binary-memcached==0.22
+pyteaser==1.0
