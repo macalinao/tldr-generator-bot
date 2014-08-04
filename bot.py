@@ -22,21 +22,23 @@ from pyteaser import Summarize
 
 reddit = praw.Reddit('tldr_generator_bot by /u/albireox')
 
-print(os.environ.get('REDDIT_USERNAME'))
-
+print(os.environ.get('REDDIT_USERNAME') + " logging in...")
 reddit.login(os.environ['REDDIT_USERNAME'], os.environ['REDDIT_PASSWORD'])
+print("Logged in!")
+
+print("Setting up memcached...")
 already = bmemcached.Client((os.environ['MEMCACHEDCLOUD_SERVERS'],),
                             os.environ['MEMCACHEDCLOUD_USERNAME'],
                             os.environ['MEMCACHEDCLOUD_PASSWORD'])
+print("Memcached set up!")
 
 subreddits = ['bottest', 'bottesting']
 regex = r'(!tldr)'
 
+print("Getting comment stream...")
 for comment in praw.helpers.comment_stream(reddit, '+'.join(subreddits)):
     cid = str(comment.id)
     match = re.search(regex, comment.body, re.IGNORECASE)
-
-    print("Scanning comments...")
 
     if match and not(already.get(cid)):
         try:
