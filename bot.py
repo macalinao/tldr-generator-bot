@@ -35,12 +35,16 @@ regex = r'(!tldr)'
 for comment in praw.helpers.comment_stream(reddit, '+'.join(subreddits)):
     cid = str(comment.id)
     match = re.search(regex, comment.body, re.IGNORECASE)
+
+    print "Scanning comments..."
+
     if match and not(already.get(cid)):
         try:
             summary = ' '.join(
                 Summarize(comment.submission.title, comment.body))
             comment.reply("**TLDR:** " + summary)
             already.set(cid, "True")
+            print "Summarized!"
 
         except HTTPError as err:
             print("Probably banned from /r/" +
