@@ -36,7 +36,7 @@ for comment in praw.helpers.comment_stream(reddit, '+'.join(subreddits)):
     cid = str(comment.id)
     match = re.search(regex, comment.body, re.IGNORECASE)
 
-    print "Scanning comments..."
+    print("Scanning comments...")
 
     if match and not(already.get(cid)):
         try:
@@ -44,7 +44,7 @@ for comment in praw.helpers.comment_stream(reddit, '+'.join(subreddits)):
                 Summarize(comment.submission.title, comment.body))
             comment.reply("**TLDR:** " + summary)
             already.set(cid, "True")
-            print "Summarized!"
+            print("Summarized!")
 
         except HTTPError as err:
             print("Probably banned from /r/" +
