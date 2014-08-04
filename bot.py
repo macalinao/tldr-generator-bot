@@ -7,20 +7,23 @@ of subreddits with the word "gist" in the
 body and replies with a small comment.
 """
 
+from __future__ import print_function
 import praw
 import bmemcached
 import time
-import os     # for all bots
+import os
 
-from __future__ import print_function  # to print to stderr
-from requests import HTTPError        # to escape ban errors
-import sys                            # for all errors
+from requests import HTTPError
+import sys
 
-import re                             # if you want to use regex
-import textwrap                       # if you want to post multiline comments
+import re
+import textwrap
 from pyteaser import Summarize
 
 reddit = praw.Reddit('tldr_generator_bot by /u/albireox')
+
+print(os.environ.get('REDDIT_USERNAME'))
+
 reddit.login(os.environ['REDDIT_USERNAME'], os.environ['REDDIT_PASSWORD'])
 already = bmemcached.Client((os.environ['MEMCACHEDCLOUD_SERVERS'],),
                             os.environ['MEMCACHEDCLOUD_USERNAME'],
